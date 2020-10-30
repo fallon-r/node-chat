@@ -4,7 +4,10 @@ const http = require("http");
 const path = require("path");
 const express = require("express");
 const socketio = require("socket.io");
-const { disconnect } = require("process");
+const {
+  generateMessage,
+  generateLocationMessage,
+} = require("./utils/messages");
 
 const app = express();
 const server = http.createServer(app);
@@ -22,24 +25,26 @@ app.get("", (req, res) => {
 io.on("connection", (socket) => {
   console.log("New network connection");
 
-  socket.emit("message", "Welcome!");
-  socket.broadcast.emit("message", "A new user has joined");
+  socket.emit("message", generateMessage("Welcome!"));
+  socket.broadcast.emit("message", generateMessage("A new user has joined"));
 
   socket.on("sendMessage", (message, callback) => {
-    io.emit("message", message);
+    io.emit("message", generateMessage(message));
     callback("Delivered!");
   });
 
   socket.on("sendLocation", (coords, callback) => {
     io.emit(
       "locationMessage",
-      `https://google.com/maps/?q=${coords.latitude},${coords.longitude}`
+      generateLocationMessage(
+        `https://google.com/maps/?q=${coords.latitude},${coords.longitude}`
+      )
     );
     callback("Server side OK!");
   });
 
   socket.on("disconnect", () => {
-    io.emit("message", "A user has left the room");
+    io.emit("message", generateMessage("A user has left the room"));
   });
 });
 

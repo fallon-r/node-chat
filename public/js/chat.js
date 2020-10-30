@@ -1,37 +1,35 @@
 const socket = io();
 
-
-
 // *Message Elements
 const $messageForm = document.getElementById("message-form");
 const $messageFormInput = document.getElementById("content");
 const $sendMessage = document.getElementById("sendMessage");
-const $messages = document.getElementById('messages')
+const $messages = document.getElementById("messages");
 
 // * Location Elements
 const $sendLocation = document.getElementById("sendLocation");
 
 // *Templates
-const messageTemplate= document.getElementById('msgTemplate').innerHTML
-const locationTemplate= document.getElementById('locTemplate').innerHTML
-
+const messageTemplate = document.getElementById("msgTemplate").innerHTML;
+const locationTemplate = document.getElementById("locTemplate").innerHTML;
 
 socket.on("message", (message) => {
   console.log(message);
   const html = Mustache.render(messageTemplate, {
-    message
+    message: message.text,
+    createAt: moment(message.createdAt).format("h:mm a"),
   });
-  $messages.insertAdjacentHTML('beforeend', html)
+  $messages.insertAdjacentHTML("beforeend", html);
 });
 
-socket.on('locationMessage', (url)=>{
-  console.log(url)
+socket.on("locationMessage", (url) => {
+  console.log(url);
   const html = Mustache.render(locationTemplate, {
-    url
+    url: url.url,
+    createdAt: moment(url.createdAt).format("hh:mm a"),
   });
-  $messages.insertAdjacentHTML('beforeend', html)
-})
-
+  $messages.insertAdjacentHTML("beforeend", html);
+});
 
 $messageForm.addEventListener("submit", (e) => {
   e.preventDefault();

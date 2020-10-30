@@ -11,7 +11,7 @@
     <div id="messages"></div>
 
     <form action="" id="message-form">
-      <input placeholder="Message" id="content" />
+      <input placeholder="Message" id="content" autocomplete="off" />
       <button id="sendMessage">Send</button>
     </form>
 
@@ -19,12 +19,16 @@
 
     <script id="msgTemplate" type="text/html">
       <div>
-        <p>{{message}}</p>
+        <p>{{createAt}} - {{message}}</p>
       </div>
     </script>
     <script id="locTemplate" type="text/html">
       <div>
-        <a href="{{url}}" target="_blank">My current location</a>
+        <p>
+          {{createdAt}} -<a href="{{url}}" target="_blank"
+            >My current location</a
+          >
+        </p>
       </div>
     </script>
 
@@ -33,7 +37,11 @@
       integrity="sha512-6AXIWogbKpsHvoZJrJtHpIYES4wP8czSj0zk7ZfwOYS8GWYFNSykwdfapt7yQc4ikZytemBu+QyVObzBHJMwYg=="
       crossorigin="anonymous"
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+      integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
