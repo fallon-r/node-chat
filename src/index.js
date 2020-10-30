@@ -27,16 +27,20 @@ io.on("connection", (socket) => {
 
   socket.on("sendMessage", (message, callback) => {
     io.emit("message", message);
-    callback("Delivered!")
+    callback("Delivered!");
   });
 
-  socket.on('sendLocation', (coords)=>{
-    io.emit('message', `https://google.com/maps/?q=${coords.latitude},${coords.longitude}`)
-  })
+  socket.on("sendLocation", (coords, callback) => {
+    io.emit(
+      "message",
+      `https://google.com/maps/?q=${coords.latitude},${coords.longitude}`
+    );
+    callback("Server side OK!");
+  });
 
-  socket.on('disconnect', ()=>{
-    io.emit("message", "A user has left the room")
-  })
+  socket.on("disconnect", () => {
+    io.emit("message", "A user has left the room");
+  });
 });
 
 server.listen(port, () => {
