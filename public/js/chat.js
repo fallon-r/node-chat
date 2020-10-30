@@ -1,19 +1,30 @@
-const socket = io()
+const socket = io();
 
+socket.on("message", (message) => {
+  console.log(message);
+});
 
-socket.on('message', (message)=>{
-    console.log(message)
-})
+document.getElementById("message-form").addEventListener("submit", (e) => {
+  e.preventDefault();
 
-document.querySelector('#message-form').addEventListener('submit', (e)=>{
-    e.preventDefault()
+  console.log("Form submit!");
 
-    console.log("Form submit!")
+  const message = e.target.elements.content.value;
 
-    const message = document.querySelector('input').value
+  socket.emit("sendMessage", message, (message)=>{
+    console.log("Message delivered successfully", message)
+  });
+});
 
-
-    socket.emit('sendMessage', message)
-
+document.getElementById('sendLocation').addEventListener('click', ()=>{
+    if(!navigator.geolocation){
+      return alert("Geolocation is not supported by this browser")
+    }
+    navigator.geolocation.getCurrentPosition((position)=>{
+      socket.emit("sendLocation", {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      })
+    })
 
 })
