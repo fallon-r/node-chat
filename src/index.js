@@ -45,27 +45,32 @@ io.on("connection", (socket) => {
     socket.join(user.room);
 
     // *Welcome Message
-    socket.emit("message", generateMessage("Welcome!"));
+    socket.emit("message", generateMessage("Admin", "Welcome!"));
     socket.broadcast
       .to(user.room)
-      .emit("message", generateMessage(`${user.username} has joined`));
+      .emit("message", generateMessage("Admin", `${user.username} has joined`));
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUserInRoom(user.room),
+    });
 
     callback();
   });
 
   // *send message
   socket.on("sendMessage", (message, callback) => {
-    const user = getUser(socket.id)
+    const user = getUser(socket.id);
     io.to(user.room).emit("message", generateMessage(user.username, message));
     callback("Delivered!");
   });
 
   // *Location send
   socket.on("sendLocation", (coords, callback) => {
-    const user = getUser(socket.id)
+    const user = getUser(socket.id);
     io.to(user.room).emit(
       "locationMessage",
-      generateLocationMessage(user.username, 
+      generateLocationMessage(
+        user.username,
         `https://google.com/maps/?q=${coords.latitude},${coords.longitude}`
       )
     );
@@ -74,13 +79,18 @@ io.on("connection", (socket) => {
 
   // *Disconnect Message
   socket.on("disconnect", () => {
-    const user = removeUser(socket.id);
+    const user = getUser(socket.id);
+    const removed = removeUser(user.id);
     if (user) {
-      io.to(user[0].room).emit(
+      io.to(user.room).emit(
         "message",
-        generateMessage(`${user[0].username} has left the room`)
+        generateMessage("Admin", `${user.username} has left the room`)
       );
     }
+    io.to(user.room).emit("roomData", {
+      room: user.room,
+      users: getUserInRoom(user.room),
+    });
   });
 });
 
