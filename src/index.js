@@ -1,5 +1,5 @@
 require("dotenv").config();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const http = require("http");
 const path = require("path");
 const express = require("express");
@@ -29,8 +29,6 @@ app.get("", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("New network connection");
-
   // * Join room
   socket.on("join", (options, callback) => {
     const { error, user } = addUser({
