@@ -25,7 +25,16 @@ app.get("", (req, res) => {
 io.on('connection', (socket)=>{
   console.log("New network connection")
 
- 
+    socket.emit('message', "Welcome!")
+
+    socket.on('sendMessage', (message)=>{
+      io.emit('message', message)
+    })
+  
+    // socket.emit('sendMessage', (message)=>{
+    //   io.emit('message', message)
+    // })
+
 })
 
 server.listen(port, () => {
