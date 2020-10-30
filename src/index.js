@@ -25,14 +25,26 @@ app.get("", (req, res) => {
 io.on("connection", (socket) => {
   console.log("New network connection");
 
-  socket.emit("message", generateMessage("Welcome!"));
-  socket.broadcast.emit("message", generateMessage("A new user has joined"));
 
+
+// * Join room
+  socket.on('join', ({username, room})=>{
+    socket.join(room)
+
+      // *Welcome Message
+  socket.to(room).emit("message", generateMessage("Welcome!"));
+  socket.broadcast.to(room).emit("message", generateMessage(`${username} has joined`));
+
+
+  })
+
+  // *send message
   socket.on("sendMessage", (message, callback) => {
-    io.emit("message", generateMessage(message));
+    io.to(room).emit("message", generateMessage(message));
     callback("Delivered!");
   });
 
+  // *Location send
   socket.on("sendLocation", (coords, callback) => {
     io.emit(
       "locationMessage",
@@ -43,6 +55,8 @@ io.on("connection", (socket) => {
     callback("Server side OK!");
   });
 
+
+  // *Disconnect Message
   socket.on("disconnect", () => {
     io.emit("message", generateMessage("A user has left the room"));
   });
