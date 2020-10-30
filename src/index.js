@@ -21,17 +21,11 @@ app.get("", (req, res) => {
   res.render("index");
 });
 
-let count = 0
-
 
 io.on('connection', (socket)=>{
   console.log("New network connection")
 
-  socket.emit('countUpdated', count)
-  socket.on('increment', ()=>{
-    count++
-    io.emit('countUpdated', count)
-  })
+ 
 })
 
 server.listen(port, () => {
