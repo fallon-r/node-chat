@@ -7,55 +7,27 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <div class="chat">
-      <div class="chat__sidebar"></div>
-      <div class="chat__main">
-        <div id="messages" class="chat__messages"></div>
-
-        <div class="compose">
-          <form action="" id="message-form">
-            <input placeholder="Message" id="content" autocomplete="off" />
-            <button id="sendMessage">Send</button>
-          </form>
-
-          <button id="sendLocation">Send Location</button>
-        </div>
+    <div class="centered-form">
+      <div class="centered-form__box">
+        <h1>Join</h1>
+        <form action="chat.html">
+          <label for="">Display Name</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="Display Name"
+            required="required"
+          />
+          <label for="">Room</label>
+          <input
+            type="text"
+            name="room"
+            placeholder="Room"
+            required="required"
+          />
+          <button>Join</button>
+        </form>
       </div>
     </div>
-
-    <script id="msgTemplate" type="text/html">
-      <div>
-        <p>
-          <span class="message__name"> Namey </span>
-          <span class="message__meta">{{createdAt}}: </span>
-        </p>
-        <p>{{message}}</p>
-      </div>
-    </script>
-    <script id="locTemplate" type="text/html">
-      <div>
-        <p>
-          <span class="message__name"> Namey </span>
-          <span class="message__meta">{{createdAt}}: </span>
-        </p>
-        <p>
-          <a href="{{url}}" target="_blank">My current location</a>
-        </p>
-      </div>
-    </script>
-
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.0.1/mustache.min.js"
-      integrity="sha512-6AXIWogbKpsHvoZJrJtHpIYES4wP8czSj0zk7ZfwOYS8GWYFNSykwdfapt7yQc4ikZytemBu+QyVObzBHJMwYg=="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-      integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/chat.js"></script>
   </body>
 </html>
