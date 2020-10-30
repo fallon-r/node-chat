@@ -1,16 +1,26 @@
 const socket = io();
 
-socket.on("message", (message) => {
-  console.log(message);
-});
+
 
 // *Message Elements
 const $messageForm = document.getElementById("message-form");
 const $messageFormInput = document.getElementById("content");
 const $sendMessage = document.getElementById("sendMessage");
+const $messages = document.getElementById('messages')
 
 // * Location Elements
 const $sendLocation = document.getElementById("sendLocation");
+
+// *Templates
+const messageTemplate= document.getElementById('msgTemplate').innerHTML
+
+
+socket.on("message", (message) => {
+  console.log(message);
+  const html = Mustache.render(messageTemplate);
+  $messages.insertAdjacentHTML('beforeend', html)
+});
+
 
 $messageForm.addEventListener("submit", (e) => {
   e.preventDefault();
