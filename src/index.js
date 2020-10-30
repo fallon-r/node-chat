@@ -55,15 +55,17 @@ io.on("connection", (socket) => {
 
   // *send message
   socket.on("sendMessage", (message, callback) => {
-    io.emit("message", generateMessage(message));
+    const user = getUser(socket.id)
+    io.to(user.room).emit("message", generateMessage(user.username, message));
     callback("Delivered!");
   });
 
   // *Location send
   socket.on("sendLocation", (coords, callback) => {
-    io.emit(
+    const user = getUser(socket.id)
+    io.to(user.room).emit(
       "locationMessage",
-      generateLocationMessage(
+      generateLocationMessage(user.username, 
         `https://google.com/maps/?q=${coords.latitude},${coords.longitude}`
       )
     );
