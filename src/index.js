@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
     });
 
     if (error) {
-      callback(error);
+      return callback(error);
     }
 
     socket.join(user.room);
@@ -72,11 +72,13 @@ io.on("connection", (socket) => {
 
   // *Disconnect Message
   socket.on("disconnect", () => {
-    const user = removeUser(socket.id)
-      
-      io.to(user[0].room).emit("message", generateMessage(`${user[0].username} has left the room`));
-  
-
+    const user = removeUser(socket.id);
+    if (user) {
+      io.to(user[0].room).emit(
+        "message",
+        generateMessage(`${user[0].username} has left the room`)
+      );
+    }
   });
 });
 
