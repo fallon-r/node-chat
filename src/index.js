@@ -70,10 +70,9 @@ io.on("connection", (socket) => {
 
     io.to(user.room).emit(
       "gifMessage",
-      generateGif(user.username, giphy.toString() + url)
+      generateGif(user.username, url)
     );
 
-    console.log(giphy + url.trim());
     callback("Delivered!");
   });
 
