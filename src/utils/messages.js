@@ -14,7 +14,16 @@ const generateLocationMessage = (username, url) => {
   };
 };
 
+const generateGif = (username, url) => {
+  return {
+    username,
+    url,
+    createdAt: new Date().getTime(),
+  };
+};
+
 module.exports = {
   generateMessage,
   generateLocationMessage,
+  generateGif
 };

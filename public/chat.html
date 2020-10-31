@@ -18,7 +18,8 @@
             <button id="sendMessage">Send</button>
           </form>
 
-          <button id="sendLocation">Send Location</button>
+          <button id="sendLocation" style="border: 1em; border-width: thick;border-color:green;">Send Location</button>
+          <button id="sendGif" style="border:1em; border-width:thick;border-color: antiquewhite;">Gif</button>
         </div>
       </div>
     </div>
@@ -32,6 +33,7 @@
         <p>{{message}}</p>
       </div>
     </script>
+
     <script id="locTemplate" type="text/html">
       <div>
         <p>
@@ -40,6 +42,18 @@
         </p>
         <p>
           <a href="{{url}}" target="_blank">My current location</a>
+        </p>
+      </div>
+    </script>
+
+    <script id="gifTemplate" type="text/html">
+      <div>
+        <p>
+          <span class="message__name"> {{username}} </span>
+          <span class="message__meta">{{createdAt}}: </span>
+        </p>
+        <p>
+
         </p>
       </div>
     </script>

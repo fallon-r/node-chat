@@ -1,5 +1,5 @@
 require("dotenv").config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 const http = require("http");
 const path = require("path");
 const express = require("express");
@@ -7,6 +7,7 @@ const socketio = require("socket.io");
 const {
   generateMessage,
   generateLocationMessage,
+  generateGif
 } = require("./utils/messages");
 const {
   addUser,
@@ -59,6 +60,15 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
     io.to(user.room).emit("message", generateMessage(user.username, message));
+    callback("Delivered!");
+  });
+
+  // *send gif
+  socket.on("sendGif", (url, callback) => {
+    const user = getUser(socket.id);
+    io.to(user.room).emit("message", generateGif(user.username, 
+        `${process.env.GIPHY_URL_START}` + message.trim().toLowerCase()
+      ));
     callback("Delivered!");
   });
 
