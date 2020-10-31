@@ -9,10 +9,15 @@ const $messages = document.getElementById("messages");
 // * Location Elements
 const $sendLocation = document.getElementById("sendLocation");
 
+// * Gif element
+
+const $sendGif = document.getElementById("sendGif");
+
 // *Templates
 const messageTemplate = document.getElementById("msgTemplate").innerHTML;
 const locationTemplate = document.getElementById("locTemplate").innerHTML;
 const sidebarTemplate = document.getElementById("sidebar-template").innerHTML;
+const gifTemplate = document.getElementById("gifTemplate").innerHTML;
 
 // *Options
 const { username, room } = Qs.parse(location.search, {
@@ -52,6 +57,16 @@ socket.on("message", (message) => {
   autoscroll();
 });
 
+socket.on("gifMessage", (message) => {
+  const html = Mustache.render(messageTemplate, {
+    username: message.username,
+    message: message.url,
+    createdAt: moment(message.createdAt).format("h:mm a"),
+  });
+  $messages.insertAdjacentHTML("beforeend", html);
+  autoscroll();
+});
+
 socket.on("locationMessage", (url) => {
   const html = Mustache.render(locationTemplate, {
     username: url.username,
@@ -71,6 +86,18 @@ $messageForm.addEventListener("submit", (e) => {
   socket.emit("sendMessage", message, (message) => {
     // *enable
     $sendMessage.removeAttribute("disabled", "disabled");
+    $messageFormInput.value = "";
+    $messageFormInput.focus();
+  });
+});
+
+$sendGif.addEventListener("click", () => {
+  $sendGif.setAttribute("disabled", "disabled");
+
+  const message = $messageFormInput.value;
+
+  socket.emit("sendGif", message, (url) => {
+    $sendGif.removeAttribute("disabled", "disabled");
     $messageFormInput.value = "";
     $messageFormInput.focus();
   });

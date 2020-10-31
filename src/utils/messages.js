@@ -25,5 +25,5 @@ const generateGif = (username, url) => {
 module.exports = {
   generateMessage,
   generateLocationMessage,
-  generateGif
+  generateGif,
 };

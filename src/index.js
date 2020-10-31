@@ -4,10 +4,11 @@ const http = require("http");
 const path = require("path");
 const express = require("express");
 const socketio = require("socket.io");
+const giphy = process.env.GIPHY_URL_START;
 const {
   generateMessage,
   generateLocationMessage,
-  generateGif
+  generateGif,
 } = require("./utils/messages");
 const {
   addUser,
@@ -66,9 +67,13 @@ io.on("connection", (socket) => {
   // *send gif
   socket.on("sendGif", (url, callback) => {
     const user = getUser(socket.id);
-    io.to(user.room).emit("message", generateGif(user.username, 
-        `${process.env.GIPHY_URL_START}` + message.trim().toLowerCase()
-      ));
+
+    io.to(user.room).emit(
+      "gifMessage",
+      generateGif(user.username, giphy.toString() + url)
+    );
+
+    console.log(giphy + url.trim());
     callback("Delivered!");
   });
 
