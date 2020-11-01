@@ -5,6 +5,7 @@ const path = require("path");
 const express = require("express");
 const socketio = require("socket.io");
 const giphy = process.env.GIPHY_URL_START;
+const { findGif } = require("./utils/giphy");
 const {
   generateMessage,
   generateLocationMessage,
@@ -68,10 +69,7 @@ io.on("connection", (socket) => {
   socket.on("sendGif", (url, callback) => {
     const user = getUser(socket.id);
 
-    io.to(user.room).emit(
-      "gifMessage",
-      generateGif(user.username, url)
-    );
+    io.to(user.room).emit("gifMessage", generateGif(user.username, url));
 
     callback("Delivered!");
   });

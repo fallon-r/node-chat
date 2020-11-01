@@ -62,7 +62,12 @@
           <span class="message__name"> {{username}} </span>
           <span class="message__meta">{{createdAt}}: </span>
         </p>
-        <p></p>
+        <p>
+          <picture>
+            <source media="(min-width:465px)" srcset="{{smallGif}}" />
+            <img src="{{bigGif}}" alt="" style="width:auto" />
+          </picture>
+        </p>
       </div>
     </script>
 
